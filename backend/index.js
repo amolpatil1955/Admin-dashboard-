@@ -14,9 +14,10 @@ const PORT = process.env.PORT || 5000;
 
 //middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://admin-dashboard-frontend-m1ft.onrender.com",
   credentials: true,
 }));
+
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
