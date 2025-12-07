@@ -23,7 +23,7 @@ const RegistrationForm = () => {
     try {
       setIsLoading(true);
 
-      const res = await fetch("http://localhost:3000/api/v1/auth/register", {
+      const res = await fetch("https://admin-dashboard-4jll.onrender.com/api/v1/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
