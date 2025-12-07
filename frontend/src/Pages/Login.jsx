@@ -60,7 +60,7 @@ const handleSubmit = async (e) => {
       <Toaster position="top-center" reverseOrder={false} />
 
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="w-[70%] bg-white rounded-md p-4   md:w-[30%]">
+        <div className="w-[90%] bg-white rounded-md p-4   md:w-[30%]">
           {/* Header */}
           <div className="text-center mb-6">
             <h1 className="text-base font-semibold text-gray-800">
