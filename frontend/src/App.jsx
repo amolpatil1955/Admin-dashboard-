@@ -5,6 +5,7 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Dashboard from "./Admin/Dashbord";
 import Navbar from "./components/Navbar";
+import Chatapp from "./Pages/ChatApp"
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           {/* Other Routes */}
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/chat" element={<Chatapp />} />
+
+
         </Routes>
       </div>
     </Router>
