@@ -12,9 +12,14 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://admin-dashboard-frontend-m1ft.onrender.com",
   credentials: true,
 }));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);

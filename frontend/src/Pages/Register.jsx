@@ -23,7 +23,7 @@ const RegistrationForm = () => {
     try {
       setIsLoading(true);
 
-      const res = await fetch("http://localhost:3000/api/v1/auth/register", {
+      const res = await fetch("https://admin-dashboard-4jll.onrender.com/api/v1/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -49,7 +49,7 @@ const RegistrationForm = () => {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="w-full bg-white rounded-md p-4   md:w-[30%]">
+        <div className="w-full bg-white rounded-md p-4 md:w-[30%]">
           {/* Header */}
           <div className="text-center mb-6">
             <h1 className="text-base font-semibold text-gray-800">

@@ -42,11 +42,10 @@ export const Login = async (req, res) => {
     }
 
     const token = jwt.sign(
-  { id: user._id, Role: user.role },
-  process.env.JWT_SECRET,   // ⭐ Capital letters
-  { expiresIn: "1d" }
-);
-
+      { id: user._id, Role: user.role },
+      process.env.jwt_secret,
+      { expiresIn: "1d" }
+    );
       return res.status(200).json({
       status: "success",
       role: user.role,
