@@ -2,30 +2,40 @@ import User from "../models/UserModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Register Controller
-export const Resgister = async (req, res) => {
+/* ================= REGISTER ================= */
+export const Register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const exituser = await User.findOne({ email });
-    if (exituser) {
+    // check existing user
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const hanshpassword = await bcrypt.hash(password, 10);
-    const NewUser = new User({
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // create user
+    const newUser = new User({
       name,
       email,
-      password: hanshpassword,
+      password: hashedPassword,
     });
-    NewUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    await newUser.save(); // ✅ await added
+
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error while Register" });
-    console.log("Error while Registerd User", error);
+    console.error("Register Error:", error);
+    res.status(500).json({ message: "Error while registering user" });
   }
 };
 
-// Login Controller
+/* ================= LOGIN ================= */
 export const Login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -36,27 +46,34 @@ export const Login = async (req, res) => {
       return res.status(400).json({ message: "User does not exist" });
     }
 
-    const ispasswordcorrect = await bcrypt.compare(password, user.password);
-    if (!ispasswordcorrect) {
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // 🔥 JWT TOKEN (FIXED)
     const token = jwt.sign(
-      { id: user._id, Role: user.role },
-      process.env.jwt_secret,
+      {
+        id: user._id,
+        role: user.role, // lowercase is better
+      },
+      process.env.JWT_SECRET, // ✅ FIXED
       { expiresIn: "1d" }
     );
-      return res.status(200).json({
-      status: "success",
-      role: user.role,
-      message: "Login Successful",
-      token,
-    });
 
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
-    console.log(error);
+    console.error("Login Error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
-
-export default { Resgister, Login };
