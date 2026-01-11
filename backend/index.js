@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-
+//amol can updated on gihub
 app.use("/api/v1/auth", authRoutes);
 
 // Start server
