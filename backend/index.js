@@ -2,8 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
-import http from "http";
-import { Server } from "socket.io";
 
 import authRoutes from "./src/routers/authRoute.js";
 
@@ -20,27 +18,13 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
+
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);
 
-// 1️⃣ CREATE HTTP SERVER
-const server = http.createServer(app);
-
-// 2️⃣ ATTACH SOCKET.IO TO SERVER
-const io = new Server(server, {
-  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] }
-});
-
-io.on("connection", (socket) => {
-  console.log("User Connected:", socket.id);
-
-  socket.on("sendMessage", (msg) => {
-    io.emit("receiveMessage", msg);
-  });
-});
-
 // Start server
-server.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
